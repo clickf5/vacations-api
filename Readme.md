@@ -26,7 +26,7 @@ When you clone the repository, run the command:
 
 `npm install`
 
-This backand uses mongodb as storage. Please start mongodb in docker before starting the server: 
+This backend uses mongodb as storage. Please start mongodb in docker before starting the server: 
 
 `docker run -p 27017:27017 --name vacations-mongo --rm -d mongo`
 
