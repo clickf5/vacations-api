@@ -1,6 +1,7 @@
 import fastify from 'fastify';
 import cookie from 'fastify-cookie';
 import sensible from 'fastify-sensible';
+import formbody from 'fastify-formbody';
 import addMongoose from './db';
 import addRoutes from './routes.js';
 import addAuth from './auth/auth.js';
@@ -16,6 +17,7 @@ export default () => {
   // TODO: возможно нужно вынести подключение отдельно
   app.register(sensible);
   app.register(cookie);
+  app.register(formbody);
 
   addAuth(app);
   addRoutes(app);
