@@ -23,15 +23,18 @@ export default {
     const existingUser = await User.findOne({ email }).exec();
 
     if (!existingUser) {
-      reply.badRequest('User with this email is not registered');
+      reply.send('User with this email is not registered');
+      return;
     }
 
-    if (existingUser.approved === 0) {
-      reply.badRequest('User with this email is not registered');
+    if (!existingUser.approved) {
+      reply.badRequest('User with this email is not approved');
+      return;
     }
 
     if (sha256(password, config.salt).toString() !== existingUser.password.toString()) {
       reply.badRequest('Invalid password');
+      return;
     }
 
     const payload = {
@@ -61,6 +64,7 @@ export default {
 
     if (existingUser) {
       reply.badRequest('User with this email already exists');
+      return;
     }
 
     try {
@@ -72,6 +76,7 @@ export default {
       });
     } catch (error) {
       reply.badRequest(error);
+      return;
     }
 
     const user = new User({
