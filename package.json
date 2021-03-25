@@ -1,0 +1,44 @@
+{
+  "name": "@clickf5/vacations-api",
+  "version": "1.0.0",
+  "description": "API for vacations application based on nodejs and Fastify framework",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prebuild": "rm -rf build",
+    "build": "NODE_ENV=production babel src --out-dir build --source-maps inline",
+    "dev": "NODE_ENV=development nodemon --exec babel-node -- ./src/bin/api.js",
+    "start": "NODE_ENV=production nodemon --exec node ./build/bin/api.js",
+    "postinstall": "npm run build"
+  },
+  "author": "Eugene Panin",
+  "license": "MIT",
+  "browserslist": [
+    "maintained node versions"
+  ],
+  "dependencies": {
+    "crypto-js": "^4.0.0",
+    "fastify": "^3.14.0",
+    "fastify-cookie": "^5.3.0",
+    "fastify-jwt": "^2.4.0",
+    "fastify-plugin": "^3.0.0",
+    "fastify-sensible": "^3.1.1",
+    "mongoose": "^5.12.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.13.10",
+    "@babel/core": "^7.13.10",
+    "@babel/node": "^7.13.10",
+    "@babel/preset-env": "^7.13.10",
+    "babel-eslint": "^10.1.0",
+    "babel-jest": "^26.6.3",
+    "eslint": "^7.22.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-functional": "^3.2.1",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jest": "^24.3.2",
+    "jest": "^26.6.3",
+    "jest-cli": "^26.6.3",
+    "nodemon": "^2.0.7"
+  }
+}
