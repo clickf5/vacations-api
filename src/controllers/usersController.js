@@ -12,7 +12,7 @@ export default {
   getOne: async (request, reply) => {
     const { id } = request.params;
     try {
-      const user = User.findById(id);
+      const user = await User.findById(id);
       reply.code(201).send(user);
     } catch (error) {
       reply.badRequest(error);
