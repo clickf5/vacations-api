@@ -6,14 +6,14 @@ This is the backend of the vacation record service.
 
 **Auth API**
 
-* POST /signin
-* POST /signup
-* GET /signout
+* POST /api/v1/signin
+* POST /api/v1/signup
+* GET /api/v1/signout
 
 **Users API**
 
-* GET /users
-* GET /user/:id
+* GET /api/v1/users
+* GET /api/v1/user/:id
 
 ### TODO
 
