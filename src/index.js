@@ -16,7 +16,10 @@ export default () => {
   addMongoose(app);
 
   // TODO: возможно нужно вынести подключение отдельно
-  app.register(cors);
+  app.register(cors, {
+    origin: true,
+    credentials: true,
+  });
   app.register(sensible);
   app.register(cookie);
   app.register(formbody);
