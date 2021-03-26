@@ -23,7 +23,7 @@ export default {
     const existingUser = await User.findOne({ email }).exec();
 
     if (!existingUser) {
-      reply.send('User with this email is not registered');
+      reply.badRequest('User with this email is not registered');
       return;
     }
 
