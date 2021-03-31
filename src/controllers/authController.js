@@ -105,4 +105,8 @@ export default {
       .send();
     // reply.send('OK');
   },
+  // WHO AM I
+  whoami: (request, reply) => {
+    reply.send(request.user);
+  },
 };

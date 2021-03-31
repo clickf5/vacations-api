@@ -14,4 +14,9 @@ export default (app) => {
     { preValidation: [app.authenticate] },
     authController.signout,
   );
+  app.get(
+    '/api/v1/whoami',
+    { preValidation: [app.authenticate] },
+    authController.whoami,
+  );
 };
