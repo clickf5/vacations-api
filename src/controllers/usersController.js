@@ -1,21 +1,32 @@
 import User from '../models/User.js';
 
 export default {
-  getAll: async (_request, reply) => {
-    try {
-      const users = await User.find({});
-      reply.code(201).send(users);
-    } catch (error) {
-      reply.badRequest(error);
+  getAll: (app) => async () => {
+    const [err, users] = await app.to(
+      User.find({}),
+    );
+
+    if (err) {
+      throw app.httpErrors.badRequest(err);
     }
+    console.log(users);
+    return users;
   },
-  getOne: async (request, reply) => {
+  getOne: (app) => async (request) => {
     const { id } = request.params;
-    try {
-      const user = await User.findById(id);
-      reply.code(201).send(user);
-    } catch (error) {
-      reply.badRequest(error);
+
+    const [err, user] = await app.to(
+      User.findById(id),
+    );
+
+    if (!user) {
+      throw app.httpErrors.notFound(`User with id = ${id} is not found`);
     }
+
+    if (err) {
+      throw app.httpErrors.badRequest(err);
+    }
+
+    return user;
   },
 };
