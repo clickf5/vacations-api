@@ -9,7 +9,7 @@ export default {
     if (err) {
       throw app.httpErrors.badRequest(err);
     }
-    console.log(users);
+
     return users;
   },
   getOne: (app) => async (request) => {
