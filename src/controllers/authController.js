@@ -56,6 +56,7 @@ export default {
     return payload;
   },
   // REGISTRATION
+  // TODO: скорее всего нужно всю валидацию вынести в отдельные валидаторы
   signup: (app) => async (request) => {
     const {
       firstName,
