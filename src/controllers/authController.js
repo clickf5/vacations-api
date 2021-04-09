@@ -14,27 +14,30 @@ const config = {
 
 export default {
   // LOGIN
-  signin: async (request, reply) => {
+  signin: (app) => async (request, reply) => {
     const {
       email,
       password,
     } = request.body;
 
-    const existingUser = await User.findOne({ email }).exec();
+    const [err, existingUser] = await app.to(
+      User.findOne({ email }).exec(),
+    );
+
+    if (err) {
+      throw app.httpErrors.badRequest(err);
+    }
 
     if (!existingUser) {
-      reply.badRequest('User with this email is not registered');
-      return;
+      throw app.httpErrors.badRequest('User with this email is not registered');
     }
 
     if (!existingUser.approved) {
-      reply.badRequest('User with this email is not approved');
-      return;
+      throw app.httpErrors.badRequest('User with this email is not approved');
     }
 
     if (sha256(password, config.salt).toString() !== existingUser.password.toString()) {
-      reply.badRequest('Invalid password');
-      return;
+      throw app.httpErrors.badRequest('Invalid password');
     }
 
     const payload = {
@@ -48,11 +51,12 @@ export default {
 
     reply
       .setCookie(config.cookieName, token, config.cookieParam)
-      .code(200)
-      .send(payload);
+      .code(200);
+
+    return payload;
   },
   // REGISTRATION
-  signup: async (request, reply) => {
+  signup: (app) => async (request) => {
     const {
       firstName,
       lastName,
@@ -60,23 +64,29 @@ export default {
       password,
     } = request.body;
 
-    const existingUser = await User.findOne({ email }).exec();
+    const [err, existingUser] = await app.to(
+      User.findOne({ email }).exec(),
+    );
 
-    if (existingUser) {
-      reply.badRequest('User with this email already exists');
-      return;
+    if (err) {
+      throw app.httpErrors.badRequest(err);
     }
 
-    try {
-      await User.validate({
+    if (existingUser) {
+      throw app.httpErrors.badRequest('User with this email already exists');
+    }
+
+    const [validateErr] = await app.to(
+      User.validate({
         firstName,
         lastName,
         email,
         password,
-      });
-    } catch (error) {
-      reply.badRequest(error);
-      return;
+      }),
+    );
+
+    if (validateErr) {
+      throw app.httpErrors.badRequest(validateErr);
     }
 
     const user = new User({
@@ -90,13 +100,15 @@ export default {
       approved: process.env.NODE_ENV !== 'production',
     });
 
-    try {
-      await user.save();
-      // TODO: пока ничего не возвращам - просто 200 ОК
-      reply.send();
-    } catch (error) {
-      reply.badRequest(error);
+    const [saveErr] = await app.to(
+      user.save(),
+    );
+
+    if (saveErr) {
+      throw app.httpErrors.badRequest(saveErr);
     }
+
+    return user;
   },
   // LOGOUT
   signout: (_request, reply) => {
