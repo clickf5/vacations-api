@@ -26,7 +26,7 @@ export default (app, io) => {
 
   // Authentication
   app.post('/api/v1/signin', authController.signin(app));
-  app.post('/api/v1/signup', authController.signup(app));
+  app.post('/api/v1/signup', authController.signup(app, io));
   app.get(
     '/api/v1/signout',
     { preValidation: [app.authenticate] },

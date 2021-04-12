@@ -57,7 +57,7 @@ export default {
   },
   // REGISTRATION
   // TODO: скорее всего нужно всю валидацию вынести в отдельные валидаторы
-  signup: (app) => async (request) => {
+  signup: (app, io) => async (request) => {
     const {
       firstName,
       lastName,
@@ -108,6 +108,8 @@ export default {
     if (saveErr) {
       throw app.httpErrors.badRequest(saveErr);
     }
+
+    io.emit('signup', user);
 
     return user;
   },
