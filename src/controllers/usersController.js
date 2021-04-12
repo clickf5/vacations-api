@@ -29,7 +29,7 @@ export default {
 
     return user;
   },
-  approve: (app) => async (request) => {
+  approve: (app, io) => async (request) => {
     const { id } = request.params;
 
     const [err, user] = await app.to(
@@ -56,9 +56,11 @@ export default {
       throw app.httpErrors.badRequest(updateErr);
     }
 
+    io.emit('approve', { id });
+
     return result;
   },
-  dismiss: (app) => async (request) => {
+  dismiss: (app, io) => async (request) => {
     const { id } = request.params;
 
     const [err, user] = await app.to(
@@ -84,6 +86,8 @@ export default {
     if (updateErr) {
       throw app.httpErrors.badRequest(updateErr);
     }
+
+    io.emit('dismiss', { id });
 
     return result;
   },

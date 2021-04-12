@@ -1,7 +1,7 @@
 import usersController from './controllers/usersController.js';
 import authController from './controllers/authController.js';
 
-export default (app) => {
+export default (app, io) => {
   // USERS
   app.get(
     '/api/v1/users',
@@ -16,12 +16,12 @@ export default (app) => {
   app.patch(
     '/api/v1/user/:id/approve',
     { preValidation: [app.authenticate] },
-    usersController.approve(app),
+    usersController.approve(app, io),
   );
   app.patch(
     '/api/v1/user/:id/dismiss',
     { preValidation: [app.authenticate] },
-    usersController.dismiss(app),
+    usersController.dismiss(app, io),
   );
 
   // Authentication
