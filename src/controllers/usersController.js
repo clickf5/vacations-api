@@ -48,7 +48,7 @@ export default {
       throw app.httpErrors.badRequest(`User with id = ${id} is already approved`);
     }
 
-    const [updateErr, updatedUser] = await app.to(
+    const [updateErr, result] = await app.to(
       User.updateOne({ _id: id }, { approved: true }),
     );
 
@@ -56,7 +56,7 @@ export default {
       throw app.httpErrors.badRequest(updateErr);
     }
 
-    return updatedUser;
+    return result;
   },
   dismiss: (app) => async (request) => {
     const { id } = request.params;
