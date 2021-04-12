@@ -18,6 +18,11 @@ export default (app) => {
     { preValidation: [app.authenticate] },
     usersController.approve(app),
   );
+  app.patch(
+    '/api/v1/user/:id/dismiss',
+    { preValidation: [app.authenticate] },
+    usersController.dismiss(app),
+  );
 
   // Authentication
   app.post('/api/v1/signin', authController.signin(app));

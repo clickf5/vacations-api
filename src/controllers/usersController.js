@@ -58,4 +58,33 @@ export default {
 
     return updatedUser;
   },
+  dismiss: (app) => async (request) => {
+    const { id } = request.params;
+
+    const [err, user] = await app.to(
+      User.findById(id),
+    );
+
+    if (!user) {
+      throw app.httpErrors.notFound(`User with id = ${id} is not found`);
+    }
+
+    if (err) {
+      throw app.httpErrors.badRequest(err);
+    }
+
+    if (!user.approved) {
+      throw app.httpErrors.badRequest(`User with id = ${id} is already dismissed`);
+    }
+
+    const [updateErr, result] = await app.to(
+      User.updateOne({ _id: id }, { approved: false }),
+    );
+
+    if (updateErr) {
+      throw app.httpErrors.badRequest(updateErr);
+    }
+
+    return result;
+  },
 };
