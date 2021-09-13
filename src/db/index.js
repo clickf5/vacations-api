@@ -1,7 +1,6 @@
 import mongoosePlugin from './mongoose.js';
 
-const uri = 'mongodb://localhost:27017/vacations';
-
-export default (app) => {
+export default (app, cfg) => {
+  const { uri } = cfg;
   app.register(mongoosePlugin, { uri });
 };

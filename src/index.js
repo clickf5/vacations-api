@@ -10,16 +10,21 @@ import getSocketServer from './socket.js';
 
 export default (customCfg = null) => {
   const defaultCfg = {
-    logger: {
-      file: 'log',
+    server: {
+      logger: {
+        file: 'log',
+      },
+    },
+    db: {
+      uri: 'mongodb://localhost:27017/vacations',
     },
   };
 
   const cfg = customCfg || defaultCfg;
 
-  const app = fastify(cfg);
+  const app = fastify(cfg.server);
 
-  addMongoose(app);
+  addMongoose(app, cfg.db);
 
   app.register(cors, {
     origin: true,
