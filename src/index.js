@@ -8,16 +8,19 @@ import addRoutes from './routes.js';
 import addAuth from './auth/auth.js';
 import getSocketServer from './socket.js';
 
-export default () => {
-  const app = fastify({
+export default (customCfg = null) => {
+  const defaultCfg = {
     logger: {
       file: 'log',
     },
-  });
+  };
+
+  const cfg = customCfg || defaultCfg;
+
+  const app = fastify(cfg);
 
   addMongoose(app);
 
-  // TODO: возможно нужно вынести подключение отдельно
   app.register(cors, {
     origin: true,
     credentials: true,
