@@ -10,7 +10,6 @@ const app = getApp();
 const start = async () => {
   try {
     await app.listen(port, address);
-    console.log(`Server has been started on ${port}`);
   } catch (err) {
     app.log.error(err);
     process.exit(1);

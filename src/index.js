@@ -10,8 +10,9 @@ import getSocketServer from './socket.js';
 
 export default () => {
   const app = fastify({
-    logger: true,
-    prettyPrint: true,
+    logger: {
+      file: 'log',
+    },
   });
 
   addMongoose(app);
