@@ -2,9 +2,19 @@
 
 import getApp from '../index.js';
 
-const port = process.env.PORT || 9999;
-const address = 'localhost';
+const port = 9999;
+const address = '0.0.0.0';
 
-getApp().listen(port, address, () => {
-  console.log(`Server has been started on ${port}`);
-});
+const app = getApp();
+
+const start = async () => {
+  try {
+    await app.listen(port, address);
+    console.log(`Server has been started on ${port}`);
+  } catch (err) {
+    app.log.error(err);
+    process.exit(1);
+  }
+};
+
+start();
