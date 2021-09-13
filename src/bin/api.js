@@ -2,8 +2,8 @@
 
 import getApp from '../index.js';
 
-const port = 9999;
-const address = '0.0.0.0';
+const port = process.env.PORT || 9999;
+const address = process.env.ADDRESS || '0.0.0.0';
 
 const app = getApp();
 
