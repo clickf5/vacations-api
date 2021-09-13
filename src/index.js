@@ -3,10 +3,10 @@ import cookie from 'fastify-cookie';
 import sensible from 'fastify-sensible';
 import formbody from 'fastify-formbody';
 import cors from 'fastify-cors';
-import { Server } from 'socket.io';
 import addMongoose from './db/index.js';
 import addRoutes from './routes.js';
 import addAuth from './auth/auth.js';
+import getSocketServer from './socket.js';
 
 export default () => {
   const app = fastify({
@@ -27,7 +27,7 @@ export default () => {
 
   addAuth(app);
 
-  const io = new Server(app.server);
+  const io = getSocketServer(app.server);
 
   addRoutes(app, io);
 
