@@ -10,4 +10,4 @@ COPY . .
 
 EXPOSE 9999
 
-CMD ["node", "./bin/api.js"]
+CMD ["node", "./src/bin/api.js"]
