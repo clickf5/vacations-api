@@ -18,7 +18,6 @@ This is the backend of the vacation record service.
 ### TODO
 
 * Vacation API
-* Production ready docker image
 
 ### How to use
 
@@ -32,4 +31,4 @@ This backend uses mongodb as storage. Please start mongodb in docker before star
 
 After starting mongodb, use this command to start the development server: 
 
-`npm run dev`
+`npm start`
