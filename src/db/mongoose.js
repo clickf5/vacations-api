@@ -7,18 +7,24 @@ const defaultSettings = {
   useCreateIndex: true,
 };
 
-const plugin = async (fastify, { uri, settings }) => {
-  // TODO: если нет подключения нужно выдавать ошибку
-  await mongoose.connect(uri, { ...defaultSettings, ...settings });
-
-  fastify.addHook('onClose', (app, done) => {
-    app.mongoose.connection.on('close', () => {
-      done();
+const plugin = async (fastify, { uri, settings }, next) => {
+  try {
+    await mongoose.connect(uri, { ...defaultSettings, ...settings });
+    
+    fastify.addHook('onClose', (app, done) => {
+      app.mongoose.connection.on('close', () => {
+        done();
+      });
+      app.mongoose.connection.close();
     });
-    app.mongoose.connection.close();
-  });
 
-  fastify.decorate('mongoose', mongoose);
+    fastify.decorate('mongoose', mongoose);
+
+    next();
+  } catch (err) {
+    fastify.log.error(err);
+    next(err);
+  }
 };
 
 export default fp(plugin, { fastify: '3.x' });
