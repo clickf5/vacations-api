@@ -1,0 +1,14 @@
+version: "3.8"
+services:
+  mongo:
+    container_name: vacations-mongo
+    image: mongo
+  api:
+    container_name: vacations-api
+    build: .
+    ports:
+      - "9999:9999"
+    volumes:
+      - .:/usr/src/app
+    depends_on:
+      - mongo
