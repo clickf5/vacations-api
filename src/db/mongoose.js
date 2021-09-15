@@ -10,7 +10,7 @@ const defaultSettings = {
 const plugin = async (fastify, { uri, settings }, next) => {
   try {
     await mongoose.connect(uri, { ...defaultSettings, ...settings });
-    
+
     fastify.addHook('onClose', (app, done) => {
       app.mongoose.connection.on('close', () => {
         done();
