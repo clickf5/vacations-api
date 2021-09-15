@@ -12,3 +12,5 @@ services:
       - .:/usr/src/app
     depends_on:
       - mongo
+    environment: 
+      - MONGODB_URL=mongodb://mongo:27017/vacations
